@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="dashboardContainer" prefHeight="544.0" prefWidth="893.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lk.ijse.pos.controller.Dashboard">
+   <children>
+      <AnchorPane layoutX="-1.0" prefHeight="538.0" prefWidth="893.0">
+         <children>
+            <ImageView fitHeight="544.0" fitWidth="899.0" pickOnBounds="true">
+               <image>
+                  <Image url="@../assets/5172658.jpg" />
+               </image>
+            </ImageView>
+            <Label layoutX="340.0" layoutY="30.0" prefHeight="44.0" prefWidth="219.0" text="Dashboard" textFill="WHITE">
+               <font>
+                  <Font name="Bauhaus 93" size="45.0" />
+               </font>
+            </Label>
+            <Label layoutX="720.0" layoutY="40.0" prefHeight="20.0" prefWidth="52.0" text="Time :" textFill="WHITE">
+               <font>
+                  <Font name="Eras Demi ITC" size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="timeLabel" layoutX="779.0" layoutY="40.0" prefHeight="20.0" prefWidth="92.0" textFill="WHITE">
+               <font>
+                  <Font name="Eras Demi ITC" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="720.0" layoutY="20.0" prefHeight="20.0" prefWidth="52.0" text="Date :" textFill="WHITE">
+               <font>
+                  <Font name="Eras Demi ITC" size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="dateLabel" layoutX="779.0" layoutY="20.0" prefHeight="20.0" prefWidth="92.0" textFill="WHITE">
+               <font>
+                  <Font name="Eras Demi ITC" size="16.0" />
+               </font>
+            </Label>
+            <Button layoutX="73.0" layoutY="132.0" mnemonicParsing="false" onAction="#customerManagerButtonOnAction" prefHeight="169.0" prefWidth="234.0" style="-fx-background-color: #09e37d62;" text="Customer Management" textFill="#35ff9d">
+               <font>
+                  <Font name="Segoe MDL2 Assets" size="20.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button layoutX="325.0" layoutY="132.0" mnemonicParsing="false" onAction="#itemManagerButtonOnAction" prefHeight="169.0" prefWidth="234.0" style="-fx-background-color: #ff006e4f;" text="Item Management" textFill="#fc348e">
+               <font>
+                  <Font name="Segoe MDL2 Assets" size="20.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button layoutX="575.0" layoutY="132.0" mnemonicParsing="false" onAction="#orderDetailButtonOnAction" prefHeight="169.0" prefWidth="234.0" style="-fx-background-color: #9d5f4e7b;" text="Order Details" textFill="#f8826d">
+               <font>
+                  <Font name="Segoe MDL2 Assets" size="20.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button layoutX="221.0" layoutY="317.0" mnemonicParsing="false" onAction="#placeOrderButtonOnAction" prefHeight="169.0" prefWidth="447.0" style="-fx-background-color: #80b1ff62;" text="Place Order" textFill="#c6deff">
+               <font>
+                  <Font name="Segoe MDL2 Assets" size="20.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Label layoutX="50.0" layoutY="38.0" prefHeight="25.0" prefWidth="125.0" text="System User Name  " textFill="WHITE">
+               <font>
+                  <Font name="Shrikhand Regular" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="systemUserNameTxt" alignment="CENTER" layoutX="27.0" layoutY="20.0" prefHeight="22.0" prefWidth="169.0" textFill="WHITE">
+               <font>
+                  <Font name="Eras Demi ITC" size="18.0" />
+               </font>
+            </Label>
+            <Button layoutX="69.0" layoutY="67.0" mnemonicParsing="false" onAction="#logOutOnAction" prefHeight="31.0" prefWidth="86.0" style="-fx-background-color: #ff006c;" text="Log out" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
