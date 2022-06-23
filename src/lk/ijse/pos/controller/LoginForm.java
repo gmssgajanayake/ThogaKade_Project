@@ -2,17 +2,14 @@ package lk.ijse.pos.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.pos.dao.DatabaseAccessCode;
-import lk.ijse.pos.db.DatabaseConnection;
-import lk.ijse.pos.dto.SystemUserDTO;
+import lk.ijse.pos.dto.SystemUserDto;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -23,7 +20,7 @@ public class LoginForm {
     public AnchorPane loginFormContainer;
     public TextField txtEmail;
     public PasswordField txtPassword;
-    public static SystemUserDTO lastSystemUser;
+    public static SystemUserDto lastSystemUser;
 
     public void signUpOnAction(ActionEvent actionEvent) {
         try {
@@ -48,7 +45,7 @@ public class LoginForm {
 
     public void loginButtonOnAction(ActionEvent actionEvent) {
         try {
-            SystemUserDTO systemUserDTO=Objects.requireNonNull(new DatabaseAccessCode().getSystemUser(txtEmail.getText()));
+            SystemUserDto systemUserDTO=Objects.requireNonNull(new DatabaseAccessCode().getSystemUser(txtEmail.getText()));
             if (systemUserDTO.getPassword().equalsIgnoreCase(txtPassword.getText())) {
                 lastSystemUser=systemUserDTO;
                 setUI("Dashboard", "Dashboard");

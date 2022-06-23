@@ -2,15 +2,13 @@ package lk.ijse.pos.dao.custom.impl;
 
 import lk.ijse.pos.dao.CrudUtil;
 import lk.ijse.pos.dao.custom.ItemDao;
-import lk.ijse.pos.dto.ItemDTO;
-import lk.ijse.pos.entity.Customer;
 import lk.ijse.pos.entity.Item;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class ItemImpl implements ItemDao {
+public class ItemDaoImpl implements ItemDao {
 
     @Override
     public ArrayList<Item> searchItem(String txtSearch) throws SQLException, ClassNotFoundException {

@@ -1,13 +1,13 @@
 package lk.ijse.pos.bo.custom;
 
-import lk.ijse.pos.dto.CustomerDTO;
-import lk.ijse.pos.dto.ItemDTO;
+import lk.ijse.pos.dto.CustomerDto;
+import lk.ijse.pos.dto.ItemDto;
 
 import java.util.ArrayList;
 
 public interface CustomerBo {
-    public boolean saveCustomer(CustomerDTO customerDTO);
-    public boolean updateCustomer(CustomerDTO customerDTO);
-    public boolean deleteCustomer(CustomerDTO customerDTO);
-    public ArrayList<ItemDTO> searchCustomer(String search);
+    public boolean saveCustomer(CustomerDto customerDTO);
+    public boolean updateCustomer(CustomerDto customerDTO);
+    public boolean deleteCustomer(CustomerDto customerDTO);
+    public ArrayList<ItemDto> searchCustomer(String search);
 }

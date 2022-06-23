@@ -10,7 +10,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.pos.dao.DatabaseAccessCode;
-import lk.ijse.pos.dto.CustomerDTO;
+import lk.ijse.pos.dto.CustomerDto;
 import lk.ijse.pos.util.IdGenerator;
 import lk.ijse.pos.view.tm.CustomerTM;
 
@@ -67,8 +67,8 @@ public class CustomerManagerForm {
     private void loadAllCustomers(String text) {
         ObservableList<CustomerTM> dataLoadArray= FXCollections.observableArrayList();
         try {
-            ArrayList<CustomerDTO> customerDTOArrayList =new DatabaseAccessCode().searchCustomer(text);
-            for (CustomerDTO customerDTO : customerDTOArrayList){
+            ArrayList<CustomerDto> customerDTOArrayList =new DatabaseAccessCode().searchCustomer(text);
+            for (CustomerDto customerDTO : customerDTOArrayList){
                 Button deleteBtn= new Button("Delete");
                 CustomerTM customerTM=new CustomerTM(customerDTO.getId(), customerDTO.getName(),
                         customerDTO.getAddress(), customerDTO.getSalary(), deleteBtn
@@ -123,7 +123,7 @@ public class CustomerManagerForm {
     public void saveCustomerOnAction(ActionEvent actionEvent) {
         try {
             if(btnSaveUpdate.getText().equalsIgnoreCase("Save Customer")){
-                if(new DatabaseAccessCode().saveCustomer(new CustomerDTO(
+                if(new DatabaseAccessCode().saveCustomer(new CustomerDto(
                         IdGenerator.getId(),
                         txtName.getText(),
                         txtAddress.getText(),
@@ -140,7 +140,7 @@ public class CustomerManagerForm {
                 btnSaveUpdate.setText("Update Customer");
             }else{
                 if(id==null)return;
-                if(new DatabaseAccessCode().updateCustomer(new CustomerDTO(
+                if(new DatabaseAccessCode().updateCustomer(new CustomerDto(
                         id,txtName.getText(),txtAddress.getText(),
                         Double.parseDouble(txtSalary.getText())
                 ))){

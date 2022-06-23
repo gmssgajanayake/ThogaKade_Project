@@ -10,7 +10,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.pos.dao.DatabaseAccessCode;
-import lk.ijse.pos.dto.ItemDTO;
+import lk.ijse.pos.dto.ItemDto;
 import lk.ijse.pos.util.CodeGenerator;
 import lk.ijse.pos.view.tm.ItemTM;
 
@@ -87,7 +87,7 @@ public class ItemManagerForm {
     public void saveItemOnAction(ActionEvent actionEvent) {
         try {
             if(btnSaveUpdate.getText().equalsIgnoreCase("Save Item")){
-                if(new DatabaseAccessCode().saveItem(new ItemDTO(
+                if(new DatabaseAccessCode().saveItem(new ItemDto(
                         CodeGenerator.getCode(),
                         txtDescription.getText(),
                         Double.parseDouble(txtUnitPrice.getText()),
@@ -104,7 +104,7 @@ public class ItemManagerForm {
                 btnSaveUpdate.setText("Update Item");
             }else{
                 if(code==null)return;
-                if(new DatabaseAccessCode().updateItem(new ItemDTO(
+                if(new DatabaseAccessCode().updateItem(new ItemDto(
                         code,txtDescription.getText(),Double.parseDouble(txtUnitPrice.getText()),
                         Double.parseDouble(txtQuantityOnHand.getText())
                 ))){
@@ -126,8 +126,8 @@ public class ItemManagerForm {
     private void loadAllItems(String text) {
         ObservableList<ItemTM> dataLoadArray= FXCollections.observableArrayList();
         try {
-            ArrayList<ItemDTO> itemDTOArrayList =new DatabaseAccessCode().searchItem(text);
-            for (ItemDTO itemDTO : itemDTOArrayList){
+            ArrayList<ItemDto> itemDTOArrayList =new DatabaseAccessCode().searchItem(text);
+            for (ItemDto itemDTO : itemDTOArrayList){
                 Button deleteBtn= new Button("Delete");
                 ItemTM itemTM=new ItemTM(itemDTO.getCode(), itemDTO.getDescription(),
                         itemDTO.getUnitPrice(), itemDTO.getQtyOnHand(),deleteBtn

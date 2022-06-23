@@ -1,15 +1,15 @@
 package lk.ijse.pos.dto;
 
-public class ItemDTO {
+public class ItemDto {
 
     private String code;
     private String description;
     private Double unitPrice;
     private Double QtyOnHand;
 
-    public ItemDTO() {}
+    public ItemDto() {}
 
-    public ItemDTO(String code, String description, Double unitPrice, Double qtyOnHand) {
+    public ItemDto(String code, String description, Double unitPrice, Double qtyOnHand) {
         this.code = code;
         this.description = description;
         this.unitPrice = unitPrice;

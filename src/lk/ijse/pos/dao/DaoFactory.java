@@ -1,8 +1,8 @@
 package lk.ijse.pos.dao;
 
-import lk.ijse.pos.dao.custom.CustomerDao;
 import lk.ijse.pos.dao.custom.impl.CustomerDaoImpl;
-import lk.ijse.pos.dao.custom.impl.ItemImpl;
+import lk.ijse.pos.dao.custom.impl.ItemDaoImpl;
+import lk.ijse.pos.dao.custom.impl.SystemUserDaoImpl;
 
 public class DaoFactory {
 
@@ -11,7 +11,7 @@ public class DaoFactory {
     public DaoFactory(){}
 
     public enum DaoType{
-        CUSTOMER,ITEM,ORDER,ORDER_DETAIL
+        CUSTOMER,ITEM,ORDER,ORDER_DETAIL,SYSTEM_USER
     }
 
     public static DaoFactory getInstance(){
@@ -23,7 +23,9 @@ public class DaoFactory {
             case CUSTOMER:
                 return (T) new CustomerDaoImpl();
             case ITEM:
-                return (T) new ItemImpl();
+                return (T) new ItemDaoImpl();
+            case SYSTEM_USER:
+                return (T) new SystemUserDaoImpl();
             case ORDER:
                 return null;
             case ORDER_DETAIL:

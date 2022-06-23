@@ -8,7 +8,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.pos.dao.DatabaseAccessCode;
-import lk.ijse.pos.dto.SystemUserDTO;
+import lk.ijse.pos.dto.SystemUserDto;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -43,7 +43,7 @@ public class SignUpForm {
     public void signUpButtonOnAction(ActionEvent actionEvent) {
         try {
             if (new DatabaseAccessCode().createSystemUser(
-                    new SystemUserDTO(
+                    new SystemUserDto(
                             txtName.getText(),
                             txtEmail.getText().trim(),
                             txtPassword.getText().trim()

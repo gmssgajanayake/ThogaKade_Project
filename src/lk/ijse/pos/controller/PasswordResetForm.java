@@ -10,7 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import lk.ijse.pos.dao.DatabaseAccessCode;
-import lk.ijse.pos.dto.SystemUserDTO;
+import lk.ijse.pos.dto.SystemUserDto;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -29,7 +29,7 @@ public class PasswordResetForm {
                        ! (txtPassword.getText().equalsIgnoreCase("") ||
                                 txtPassword.getText().equalsIgnoreCase(""))){
             try {
-                SystemUserDTO systemUser = new DatabaseAccessCode().getSystemUser(txtEmail.getText());
+                SystemUserDto systemUser = new DatabaseAccessCode().getSystemUser(txtEmail.getText());
                 if(systemUser!=null && !txtEmail.getText().equalsIgnoreCase("") ){
                     systemUser.setPassword(txtPassword.getText());
                     new DatabaseAccessCode().resetPassword(systemUser);

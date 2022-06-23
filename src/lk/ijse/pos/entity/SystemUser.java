@@ -1,13 +1,11 @@
-package lk.ijse.pos.dto;
+package lk.ijse.pos.entity;
 
-import java.util.Objects;
-
-public class SystemUserDTO {
+public class SystemUser {
     private String name;
     private String email;
     private String password;
 
-    public SystemUserDTO(String name, String email, String password) {
+    public SystemUser(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
@@ -34,9 +32,7 @@ public class SystemUserDTO {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    public void setEmail(String email) { this.email = email; }
 
     public String getPassword() {
         return password;

@@ -1,83 +1,87 @@
 package lk.ijse.pos.dao;
 
 import lk.ijse.pos.dao.custom.impl.CustomerDaoImpl;
-import lk.ijse.pos.dao.custom.impl.ItemImpl;
-import lk.ijse.pos.dto.CustomerDTO;
-import lk.ijse.pos.dto.ItemDTO;
-import lk.ijse.pos.dto.SystemUserDTO;
+import lk.ijse.pos.dao.custom.impl.ItemDaoImpl;
+import lk.ijse.pos.dao.custom.impl.SystemUserDaoImpl;
+import lk.ijse.pos.dto.CustomerDto;
+import lk.ijse.pos.dto.ItemDto;
+import lk.ijse.pos.dto.SystemUserDto;
 import lk.ijse.pos.entity.Customer;
 import lk.ijse.pos.entity.Item;
-import lk.ijse.pos.util.IdGenerator;
+import lk.ijse.pos.entity.SystemUser;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Objects;
 
 
 public class DatabaseAccessCode {
 
     private final CustomerDaoImpl customerDao=DaoFactory.getInstance().getDao(DaoFactory.DaoType.CUSTOMER);
-    private final ItemImpl ItemDao=DaoFactory.getInstance().getDao(DaoFactory.DaoType.ITEM);
+    private final ItemDaoImpl ItemDao=DaoFactory.getInstance().getDao(DaoFactory.DaoType.ITEM);
+    private final SystemUserDaoImpl systemUserDao=DaoFactory.getInstance().getDao(DaoFactory.DaoType.SYSTEM_USER);
 
     //Register a new system user
-    public boolean createSystemUser(SystemUserDTO systemUserDTO) throws SQLException, ClassNotFoundException {
-        return CrudUtil.execute("INSERT INTO system_user VALUES (?,?,?)",
-                systemUserDTO.getName(),
-                systemUserDTO.getEmail(),
-                systemUserDTO.getPassword()
-        );
+    public boolean createSystemUser(SystemUserDto systemUserDto) throws SQLException, ClassNotFoundException {
+        return systemUserDao.save(new SystemUser(
+                systemUserDto.getName(),
+                systemUserDto.getEmail(),
+                systemUserDto.getPassword()
+        ));
     }
 
     //Find a system user (Email=)
-    public SystemUserDTO getSystemUser(String email) throws SQLException, ClassNotFoundException {
-        ResultSet resultSet = CrudUtil.execute("SELECT * FROM system_user WHERE email=?", email);
-        return resultSet.next() ? new SystemUserDTO(
-                resultSet.getString(1),
-                resultSet.getString(2),
-                resultSet.getString(3)
-        ): null;
+    public SystemUserDto getSystemUser(String email) throws SQLException, ClassNotFoundException {
+        SystemUser systemUser= systemUserDao.get(email);
+        return new SystemUserDto(
+                systemUser.getName(),
+                systemUser.getEmail(),
+                systemUser.getPassword()
+        );
     }
 
     //Register a new customer
-    public boolean saveCustomer(CustomerDTO customerDTO) throws SQLException, ClassNotFoundException {
+    public boolean saveCustomer(CustomerDto customerDto) throws SQLException, ClassNotFoundException {
         return customerDao.save(new Customer(
-                customerDTO.getId(),
-                customerDTO.getName(),
-                customerDTO.getAddress(),
-                customerDTO.getSalary()
+                customerDto.getId(),
+                customerDto.getName(),
+                customerDto.getAddress(),
+                customerDto.getSalary()
         ));
     }
 
     //System user's password reset
-    public void resetPassword(SystemUserDTO systemUserDTO) throws SQLException, ClassNotFoundException {
-        CrudUtil.execute("UPDATE system_user SET password=? WHERE email=?"
-                ,systemUserDTO.getPassword(),systemUserDTO.getEmail());
+    public void resetPassword(SystemUserDto systemUserDto) throws SQLException, ClassNotFoundException {
+       systemUserDao.resetPassword(new SystemUser(
+               systemUserDto.getName(),
+               systemUserDto.getEmail(),
+               systemUserDto.getPassword()
+       ));
     }
 
     //Customers find when searching
-    public ArrayList<CustomerDTO> searchCustomer(String txtSearch) throws SQLException, ClassNotFoundException {
-        ArrayList<CustomerDTO> customerDTOArrayList=new ArrayList<>();
+    public ArrayList<CustomerDto> searchCustomer(String txtSearch) throws SQLException, ClassNotFoundException {
+        ArrayList<CustomerDto> customerDtoArrayList=new ArrayList<>();
         ArrayList<Customer> customerArrayList=customerDao.searchCustomer(txtSearch);
         for (Customer customer:customerArrayList) {
-            customerDTOArrayList.add(new CustomerDTO(
+            customerDtoArrayList.add(new CustomerDto(
                 customer.getId(),
                 customer.getName(),
                 customer.getAddress(),
                 customer.getSalary()
             ));
         }
-        return customerDTOArrayList;
+        return customerDtoArrayList;
     }
 
     //Update customer
-    public boolean updateCustomer(CustomerDTO customerDTO) throws SQLException, ClassNotFoundException {
+    public boolean updateCustomer(CustomerDto customerDto) throws SQLException, ClassNotFoundException {
         return customerDao.update(
                 new Customer(
-                        customerDTO.getId(),
-                        customerDTO.getName(),
-                        customerDTO.getAddress(),
-                        customerDTO.getSalary()
+                        customerDto.getId(),
+                        customerDto.getName(),
+                        customerDto.getAddress(),
+                        customerDto.getSalary()
                 )
         );
     }
@@ -88,38 +92,38 @@ public class DatabaseAccessCode {
     }
 
     //Save a new item
-    public boolean saveItem(ItemDTO itemDTO) throws SQLException, ClassNotFoundException {
+    public boolean saveItem(ItemDto itemDto) throws SQLException, ClassNotFoundException {
         return ItemDao.save(new Item(
-                itemDTO.getCode(),
-                itemDTO.getDescription(),
-                itemDTO.getUnitPrice(),
-                itemDTO.getQtyOnHand()
+                itemDto.getCode(),
+                itemDto.getDescription(),
+                itemDto.getUnitPrice(),
+                itemDto.getQtyOnHand()
         ));
     }
 
     //Update item
-    public boolean updateItem(ItemDTO itemDTO) throws SQLException, ClassNotFoundException {
+    public boolean updateItem(ItemDto itemDto) throws SQLException, ClassNotFoundException {
         return ItemDao.update(new Item(
-                itemDTO.getCode(),
-                itemDTO.getDescription(),
-                itemDTO.getUnitPrice(),
-                itemDTO.getQtyOnHand()
+                itemDto.getCode(),
+                itemDto.getDescription(),
+                itemDto.getUnitPrice(),
+                itemDto.getQtyOnHand()
         ));
     }
 
    // Items find when searching
-    public ArrayList<ItemDTO> searchItem(String txtSearch) throws SQLException, ClassNotFoundException {
-        ArrayList<ItemDTO> itemDTOArrayList=new ArrayList<>();
+    public ArrayList<ItemDto> searchItem(String txtSearch) throws SQLException, ClassNotFoundException {
+        ArrayList<ItemDto> itemDtoArrayList=new ArrayList<>();
         ArrayList<Item> itemArrayList=ItemDao.searchItem(txtSearch);
         for (Item item:itemArrayList) {
-            itemDTOArrayList.add(new ItemDTO(
+            itemDtoArrayList.add(new ItemDto(
                item.getCode(),
                item.getDescription(),
                item.getUnitPrice(),
                item.getQtyOnHand()
             ));
         }
-        return itemDTOArrayList;
+        return itemDtoArrayList;
     }
 
     //Delete item
