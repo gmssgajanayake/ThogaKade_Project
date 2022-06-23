@@ -9,7 +9,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.ijse.pos.dao.DatabaseAccessCode;
+import lk.ijse.pos.bo.BoFactory;
+import lk.ijse.pos.bo.custom.impl.SystemUserBoImpl;
 import lk.ijse.pos.dto.SystemUserDto;
 
 import java.io.IOException;
@@ -22,6 +23,8 @@ public class PasswordResetForm {
     public PasswordField txtPassword1;
     public AnchorPane resetPasswordContainer;
     public TextField txtEmail;
+    public final SystemUserBoImpl systemUserBo= BoFactory.getInstance().getBo(BoFactory.BoType.SYSTEM_USER);
+
 
     public void resetPasswordButtonOnAction(ActionEvent actionEvent) {
         if (
@@ -29,10 +32,10 @@ public class PasswordResetForm {
                        ! (txtPassword.getText().equalsIgnoreCase("") ||
                                 txtPassword.getText().equalsIgnoreCase(""))){
             try {
-                SystemUserDto systemUser = new DatabaseAccessCode().getSystemUser(txtEmail.getText());
+                SystemUserDto systemUser = systemUserBo.getSystemUser(txtEmail.getText());
                 if(systemUser!=null && !txtEmail.getText().equalsIgnoreCase("") ){
                     systemUser.setPassword(txtPassword.getText());
-                    new DatabaseAccessCode().resetPassword(systemUser);
+                    systemUserBo.resetPassword(systemUser);
                     new Alert(Alert.AlertType.INFORMATION,"Successfully changed your password").show();
                 }else{
                     new Alert(Alert.AlertType.WARNING,"This system user cannot be find").show();

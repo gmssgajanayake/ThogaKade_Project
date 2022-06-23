@@ -9,7 +9,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.ijse.pos.dao.DatabaseAccessCode;
+import lk.ijse.pos.bo.BoFactory;
+import lk.ijse.pos.bo.custom.impl.ItemBoImpl;
 import lk.ijse.pos.dto.ItemDto;
 import lk.ijse.pos.util.CodeGenerator;
 import lk.ijse.pos.view.tm.ItemTM;
@@ -37,6 +38,7 @@ public class ItemManagerForm {
     public TableColumn colUnitPrice;
     public TableColumn colQtyOnHand;
     private String code;
+    private final ItemBoImpl itemBo=BoFactory.getInstance().getBo(BoFactory.BoType.ITEM);
 
     public void initialize(){
         colCode.setCellValueFactory(new PropertyValueFactory<>("code"));
@@ -87,7 +89,7 @@ public class ItemManagerForm {
     public void saveItemOnAction(ActionEvent actionEvent) {
         try {
             if(btnSaveUpdate.getText().equalsIgnoreCase("Save Item")){
-                if(new DatabaseAccessCode().saveItem(new ItemDto(
+                if(itemBo.saveItem(new ItemDto(
                         CodeGenerator.getCode(),
                         txtDescription.getText(),
                         Double.parseDouble(txtUnitPrice.getText()),
@@ -104,7 +106,7 @@ public class ItemManagerForm {
                 btnSaveUpdate.setText("Update Item");
             }else{
                 if(code==null)return;
-                if(new DatabaseAccessCode().updateItem(new ItemDto(
+                if(itemBo.updateItem(new ItemDto(
                         code,txtDescription.getText(),Double.parseDouble(txtUnitPrice.getText()),
                         Double.parseDouble(txtQuantityOnHand.getText())
                 ))){
@@ -126,7 +128,7 @@ public class ItemManagerForm {
     private void loadAllItems(String text) {
         ObservableList<ItemTM> dataLoadArray= FXCollections.observableArrayList();
         try {
-            ArrayList<ItemDto> itemDTOArrayList =new DatabaseAccessCode().searchItem(text);
+            ArrayList<ItemDto> itemDTOArrayList =itemBo.searchItem(text);
             for (ItemDto itemDTO : itemDTOArrayList){
                 Button deleteBtn= new Button("Delete");
                 ItemTM itemTM=new ItemTM(itemDTO.getCode(), itemDTO.getDescription(),
@@ -139,7 +141,7 @@ public class ItemManagerForm {
                                 "Are you sure whether do you want to delete this item ?",YES,NO);
                         alert.showAndWait();
                         if(alert.getResult()==YES){
-                            if(new DatabaseAccessCode().deleteItem(itemTM.getCode())){
+                            if(itemBo.deleteItem(itemTM.getCode())){
                                 new Alert(Alert.AlertType.INFORMATION,"Successfully deleted...",
                                         CANCEL).show();
                                 loadAllItems(txtSearch.getText());

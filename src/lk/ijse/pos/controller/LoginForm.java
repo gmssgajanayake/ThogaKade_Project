@@ -8,7 +8,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.ijse.pos.dao.DatabaseAccessCode;
+import lk.ijse.pos.bo.BoFactory;
+import lk.ijse.pos.bo.custom.impl.SystemUserBoImpl;
 import lk.ijse.pos.dto.SystemUserDto;
 
 import java.io.IOException;
@@ -21,6 +22,7 @@ public class LoginForm {
     public TextField txtEmail;
     public PasswordField txtPassword;
     public static SystemUserDto lastSystemUser;
+    public final SystemUserBoImpl systemUserBo= BoFactory.getInstance().getBo(BoFactory.BoType.SYSTEM_USER);
 
     public void signUpOnAction(ActionEvent actionEvent) {
         try {
@@ -45,7 +47,7 @@ public class LoginForm {
 
     public void loginButtonOnAction(ActionEvent actionEvent) {
         try {
-            SystemUserDto systemUserDTO=Objects.requireNonNull(new DatabaseAccessCode().getSystemUser(txtEmail.getText()));
+            SystemUserDto systemUserDTO=Objects.requireNonNull(systemUserBo.getSystemUser(txtEmail.getText()));
             if (systemUserDTO.getPassword().equalsIgnoreCase(txtPassword.getText())) {
                 lastSystemUser=systemUserDTO;
                 setUI("Dashboard", "Dashboard");
