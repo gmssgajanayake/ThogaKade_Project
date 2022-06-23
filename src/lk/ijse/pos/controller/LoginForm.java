@@ -8,8 +8,10 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.ijse.pos.dao.DatabaseAccessCode;
+import lk.ijse.pos.bo.BoFactory;
+import lk.ijse.pos.bo.custom.impl.SystemUserBoImpl;
 import lk.ijse.pos.dto.SystemUserDto;
+import lk.ijse.pos.util.SecurityConfig;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -21,6 +23,7 @@ public class LoginForm {
     public TextField txtEmail;
     public PasswordField txtPassword;
     public static SystemUserDto lastSystemUser;
+    public final SystemUserBoImpl systemUserBo= BoFactory.getInstance().getBo(BoFactory.BoType.SYSTEM_USER);
 
     public void signUpOnAction(ActionEvent actionEvent) {
         try {
@@ -45,9 +48,10 @@ public class LoginForm {
 
     public void loginButtonOnAction(ActionEvent actionEvent) {
         try {
-            SystemUserDto systemUserDTO=Objects.requireNonNull(new DatabaseAccessCode().getSystemUser(txtEmail.getText()));
-            if (systemUserDTO.getPassword().equalsIgnoreCase(txtPassword.getText())) {
-                lastSystemUser=systemUserDTO;
+            SystemUserDto systemUserDto=Objects.requireNonNull(systemUserBo.getSystemUser(txtEmail.getText()));
+            if ( /*Decrypts encrypted password*/SecurityConfig.decrypt(systemUserDto.getPassword(),SecurityConfig.holdingSecretKey)
+                    .equalsIgnoreCase(txtPassword.getText())) {
+                lastSystemUser=systemUserDto;
                 setUI("Dashboard", "Dashboard");
             } else {
                 new Alert(Alert.AlertType.ERROR, "Your email or password is wrong !!!", OK).show();

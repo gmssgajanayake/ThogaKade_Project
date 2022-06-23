@@ -7,7 +7,8 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.ijse.pos.dao.DatabaseAccessCode;
+import lk.ijse.pos.bo.BoFactory;
+import lk.ijse.pos.bo.custom.impl.SystemUserBoImpl;
 import lk.ijse.pos.dto.SystemUserDto;
 
 import java.io.IOException;
@@ -22,7 +23,7 @@ public class SignUpForm {
     public PasswordField txtPassword;
     public Button singUpButton;
     public CheckBox agreementCheckBox;
-
+    public final SystemUserBoImpl systemUserBo= BoFactory.getInstance().getBo(BoFactory.BoType.SYSTEM_USER);
 
     public void loginOnAction(ActionEvent actionEvent) throws IOException {
         setUI("LoginForm","Login");
@@ -42,7 +43,7 @@ public class SignUpForm {
 
     public void signUpButtonOnAction(ActionEvent actionEvent) {
         try {
-            if (new DatabaseAccessCode().createSystemUser(
+            if (systemUserBo.createSystemUser(
                     new SystemUserDto(
                             txtName.getText(),
                             txtEmail.getText().trim(),

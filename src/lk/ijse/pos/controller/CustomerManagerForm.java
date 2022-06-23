@@ -9,7 +9,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import lk.ijse.pos.dao.DatabaseAccessCode;
+import lk.ijse.pos.bo.BoFactory;
+import lk.ijse.pos.bo.custom.impl.CustomerBoImpl;
 import lk.ijse.pos.dto.CustomerDto;
 import lk.ijse.pos.util.IdGenerator;
 import lk.ijse.pos.view.tm.CustomerTM;
@@ -36,6 +37,7 @@ public class CustomerManagerForm {
     public TableColumn colAddress;
     public TableColumn colOption;
     private String id;
+    public final CustomerBoImpl customerBo= BoFactory.getInstance().getBo(BoFactory.BoType.CUSTOMER);
 
     public void initialize(){
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -67,11 +69,11 @@ public class CustomerManagerForm {
     private void loadAllCustomers(String text) {
         ObservableList<CustomerTM> dataLoadArray= FXCollections.observableArrayList();
         try {
-            ArrayList<CustomerDto> customerDTOArrayList =new DatabaseAccessCode().searchCustomer(text);
-            for (CustomerDto customerDTO : customerDTOArrayList){
+            ArrayList<CustomerDto> customerDtoArrayList =customerBo.searchCustomer(text);
+            for (CustomerDto customerDto : customerDtoArrayList){
                 Button deleteBtn= new Button("Delete");
-                CustomerTM customerTM=new CustomerTM(customerDTO.getId(), customerDTO.getName(),
-                        customerDTO.getAddress(), customerDTO.getSalary(), deleteBtn
+                CustomerTM customerTM=new CustomerTM(customerDto.getId(), customerDto.getName(),
+                        customerDto.getAddress(), customerDto.getSalary(), deleteBtn
                 );
                 dataLoadArray.add(customerTM);
                 deleteBtn.setOnAction(event -> {
@@ -80,7 +82,7 @@ public class CustomerManagerForm {
                                 "Are you sure whether do you want to delete this customer ?",YES,NO);
                         alert.showAndWait();
                         if(alert.getResult()==YES){
-                            if(new DatabaseAccessCode().deleteCustomer(customerTM.getId())){
+                            if(customerBo.deleteCustomer(customerTM.getId())){
                                 new Alert(Alert.AlertType.INFORMATION,"Successfully deleted...",
                                         CANCEL).show();
                                 loadAllCustomers(txtSearch.getText());
@@ -123,7 +125,7 @@ public class CustomerManagerForm {
     public void saveCustomerOnAction(ActionEvent actionEvent) {
         try {
             if(btnSaveUpdate.getText().equalsIgnoreCase("Save Customer")){
-                if(new DatabaseAccessCode().saveCustomer(new CustomerDto(
+                if(customerBo.saveCustomer(new CustomerDto(
                         IdGenerator.getId(),
                         txtName.getText(),
                         txtAddress.getText(),
@@ -140,7 +142,7 @@ public class CustomerManagerForm {
                 btnSaveUpdate.setText("Update Customer");
             }else{
                 if(id==null)return;
-                if(new DatabaseAccessCode().updateCustomer(new CustomerDto(
+                if(customerBo.updateCustomer(new CustomerDto(
                         id,txtName.getText(),txtAddress.getText(),
                         Double.parseDouble(txtSalary.getText())
                 ))){

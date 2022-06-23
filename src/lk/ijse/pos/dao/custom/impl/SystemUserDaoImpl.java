@@ -2,8 +2,8 @@ package lk.ijse.pos.dao.custom.impl;
 
 import lk.ijse.pos.dao.CrudUtil;
 import lk.ijse.pos.dao.custom.SystemUserDao;
-import lk.ijse.pos.dto.SystemUserDto;
 import lk.ijse.pos.entity.SystemUser;
+import lk.ijse.pos.util.SecurityConfig;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,9 +14,9 @@ public class SystemUserDaoImpl implements SystemUserDao {
     @Override
     public boolean save(SystemUser systemUser) throws SQLException, ClassNotFoundException {
         return CrudUtil.execute("INSERT INTO system_user VALUES (?,?,?)",
-                systemUser.getName(),
-                systemUser.getEmail(),
-                systemUser.getPassword()
+                systemUser.getName(), systemUser.getEmail(),
+                /*To encrypt password*/
+                SecurityConfig.encrypt(systemUser.getPassword(),SecurityConfig.holdingSecretKey)
         );
     }
 
@@ -32,8 +32,11 @@ public class SystemUserDaoImpl implements SystemUserDao {
 
     @Override
     public void resetPassword(SystemUser systemUser) throws SQLException, ClassNotFoundException {
-        CrudUtil.execute("UPDATE system_user SET password=? WHERE email=?"
-                ,systemUser.getPassword(),systemUser.getEmail());
+        CrudUtil.execute("UPDATE system_user SET password=? WHERE email=?",
+                /*To encrypt password*/
+                SecurityConfig.encrypt(systemUser.getPassword(),SecurityConfig.holdingSecretKey),
+                systemUser.getEmail()
+        );
     }
 
     @Override
