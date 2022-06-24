@@ -25,5 +25,6 @@ public class AppInitializer extends Application {
         );
         primaryStage.show();
         primaryStage.setTitle("Login");
+        primaryStage.centerOnScreen();
     }
 }

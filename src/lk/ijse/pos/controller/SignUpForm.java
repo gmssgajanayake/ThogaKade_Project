@@ -39,6 +39,7 @@ public class SignUpForm {
                 )
         );
         stage.setTitle(title);
+        stage.centerOnScreen();
     }
 
     public void signUpButtonOnAction(ActionEvent actionEvent) {
