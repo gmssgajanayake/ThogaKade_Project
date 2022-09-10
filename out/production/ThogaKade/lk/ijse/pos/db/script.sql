@@ -1,9 +1,7 @@
 SHOW
 DATABASES ;
-CREATE
-DATABASE Thogakade;
-USE
-Thogakade;
+CREATE DATABASE Thogakade;
+USE Thogakade;
 CREATE TABLE system_user
 (
     name     VARCHAR(45)  NOT NULL,
@@ -11,6 +9,7 @@ CREATE TABLE system_user
     password VARCHAR(1000) NOT NULL
 );
 DESC system_user;
+
 CREATE TABLE customer
 (
     id      VARCHAR(45) NOT NULL PRIMARY KEY,

@@ -9,7 +9,7 @@ public class DatabaseConnection {
     private final Connection connection;
     private static final String HOST="jdbc:mysql://127.0.0.1:3306/Thogakade";
     private static final String USER="root";
-    private static final String PASSWORD="Sakuja12$";
+    private static final String PASSWORD="1234";
 
     private DatabaseConnection() throws ClassNotFoundException, SQLException {
         databaseConnection=this;
